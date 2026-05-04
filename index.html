@@ -1,1 +1,332 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>10fresh 練馬店｜脳疲労リセットコース 3回チケット</title>
+  <meta name="description" content="10fresh 練馬店 公式LINE 脳疲労リセットコース 3回チケット" />
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --brand:#10b981;
+      --brand2:#059669;
+      --line:#e2e8f0;
+      --danger:#ef4444;
+    }
 
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 400px at 10% -10%, #d1fae5 0%, transparent 50%),
+        radial-gradient(1000px 300px at 100% 0%, #e0f2fe 0%, transparent 45%),
+        var(--bg);
+      color:var(--text);
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      display:grid;
+      place-items:center;
+      padding:14px;
+    }
+
+    .ticket{
+      width:min(100%, 430px);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 16px 38px rgba(2,6,23,.10);
+      overflow:hidden;
+    }
+
+    .head{
+      padding:20px 18px 18px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+    }
+
+    .shop{
+      font-size:12px;
+      opacity:.95;
+      letter-spacing:.03em;
+    }
+
+    .title{
+      margin:.45rem 0 0;
+      font-size:1.35rem;
+      line-height:1.35;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+
+    .body{
+      padding:18px;
+    }
+
+    .summary{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .summary .label{
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .remain{
+      font-size:2rem;
+      font-weight:800;
+      line-height:1;
+    }
+
+    .remain small{
+      font-size:.95rem;
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .progress-wrap{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      margin-bottom:14px;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:#e5e7eb;
+      overflow:hidden;
+      margin-bottom:8px;
+    }
+
+    .progress{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--brand),#34d399);
+      transition:width .25s ease;
+    }
+
+    .progress-text{
+      font-size:.82rem;
+      color:var(--muted);
+      text-align:right;
+    }
+
+    .stamps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .stamp{
+      aspect-ratio:1/1;
+      border-radius:14px;
+      border:2px solid var(--line);
+      background:#fff;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:1.45rem;
+      color:#94a3b8;
+      user-select:none;
+      transition:all .2s ease;
+    }
+
+    .stamp.used{
+      border-color:#86efac;
+      background:#ecfdf5;
+      color:#047857;
+      box-shadow:inset 0 0 0 1px #bbf7d0;
+    }
+
+    .controls{
+      display:grid;
+      gap:10px;
+    }
+
+    button{
+      border:0;
+      border-radius:12px;
+      font-weight:800;
+      font-size:.98rem;
+      padding:13px 14px;
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .btn-use{
+      background:var(--brand);
+      color:#fff;
+    }
+
+    .btn-use:active{transform:translateY(1px)}
+    .btn-use:disabled{
+      background:#9ca3af;
+      cursor:not-allowed;
+    }
+
+    .btn-reset{
+      background:#fff;
+      color:var(--danger);
+      border:1px solid #fecaca;
+    }
+
+    .meta{
+      margin-top:12px;
+      font-size:.76rem;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    .foot{
+      border-top:1px solid var(--line);
+      padding:11px 14px 14px;
+      text-align:center;
+      font-size:.76rem;
+      color:var(--muted);
+    }
+
+    .badge{
+      display:inline-block;
+      margin-left:6px;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:.68rem;
+      font-weight:700;
+      color:#065f46;
+      background:#d1fae5;
+      border:1px solid #a7f3d0;
+      vertical-align:middle;
+    }
+  </style>
+</head>
+<body>
+  <main class="ticket" aria-label="脳疲労リセットコース3回チケット">
+    <section class="head">
+      <div class="shop">10fresh 練馬店 公式LINE</div>
+      <h1 class="title">脳疲労リセットコース<br>3回チケット</h1>
+    </section>
+
+    <section class="body">
+      <div class="summary">
+        <div>
+          <div class="label">残り回数</div>
+          <div id="statusText" class="label">ご利用状況を表示中</div>
+        </div>
+        <div class="remain"><span id="remainNum">3</span> <small>/ 3</small></div>
+      </div>
+
+      <div class="progress-wrap" aria-hidden="true">
+        <div class="progress-bar"><div id="progress" class="progress"></div></div>
+        <div id="progressText" class="progress-text">利用 0 / 3</div>
+      </div>
+
+      <div id="stamps" class="stamps" aria-label="チケット使用状態"></div>
+
+      <div class="controls">
+        <button id="useBtn" class="btn-use" type="button">1回利用する</button>
+        <button id="resetBtn" class="btn-reset" type="button">チケットをリセット</button>
+      </div>
+
+      <p class="meta">
+        ※このチケット状態は端末内に保存されます。<br />
+        ※スタッフ確認のうえ「1回利用する」を押してください。<br />
+        ※端末変更・ブラウザデータ削除で状態は消えることがあります。
+      </p>
+    </section>
+
+    <footer class="foot">
+      Powered by 10fresh Nerima
+      <span class="badge">LINE Menu</span>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const TOTAL = 3;
+      const STORAGE_KEY = "10fresh_nerima_brainreset_ticket_used_v1";
+
+      const remainNum = document.getElementById("remainNum");
+      const statusText = document.getElementById("statusText");
+      const progress = document.getElementById("progress");
+      const progressText = document.getElementById("progressText");
+      const stamps = document.getElementById("stamps");
+      const useBtn = document.getElementById("useBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let used = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
+      if (Number.isNaN(used) || used < 0) used = 0;
+      if (used > TOTAL) used = TOTAL;
+
+      function save() {
+        localStorage.setItem(STORAGE_KEY, String(used));
+      }
+
+      function renderStamps() {
+        stamps.innerHTML = "";
+        for (let i = 0; i < TOTAL; i++) {
+          const cell = document.createElement("div");
+          const isUsed = i < used;
+          cell.className = "stamp" + (isUsed ? " used" : "");
+          cell.textContent = isUsed ? "✔" : "○";
+          cell.setAttribute("aria-label", isUsed ? `第${i + 1}回 利用済み` : `第${i + 1}回 未利用`);
+          stamps.appendChild(cell);
+        }
+      }
+
+      function render() {
+        const remain = TOTAL - used;
+        remainNum.textContent = String(remain);
+
+        const percent = (used / TOTAL) * 100;
+        progress.style.width = percent + "%";
+        progressText.textContent = `利用 ${used} / ${TOTAL}`;
+
+        if (remain === 0) {
+          statusText.textContent = "すべて利用済みです";
+          useBtn.disabled = true;
+          useBtn.textContent = "利用済み（3/3）";
+        } else {
+          statusText.textContent = `あと ${remain} 回ご利用いただけます`;
+          useBtn.disabled = false;
+          useBtn.textContent = "1回利用する";
+        }
+
+        renderStamps();
+      }
+
+      useBtn.addEventListener("click", function () {
+        if (used >= TOTAL) return;
+        const ok = window.confirm("このチケットを1回分利用します。よろしいですか？");
+        if (!ok) return;
+
+        used += 1;
+        save();
+        render();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        const ok = window.confirm("チケットを3回分にリセットします。よろしいですか？");
+        if (!ok) return;
+
+        used = 0;
+        save();
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
