@@ -16,8 +16,11 @@
       --line:#e2e8f0;
       --danger:#ef4444;
     }
+
     *{box-sizing:border-box}
+
     html,body{height:100%}
+
     body{
       margin:0;
       background:
@@ -32,6 +35,7 @@
       place-items:center;
       padding:14px;
     }
+
     .ticket{
       width:min(100%, 430px);
       background:var(--card);
@@ -40,64 +44,220 @@
       box-shadow:0 16px 38px rgba(2,6,23,.10);
       overflow:hidden;
     }
+
     .head{
       padding:20px 18px 18px;
       color:#fff;
       background:linear-gradient(135deg,var(--brand),var(--brand2));
     }
-    .shop{font-size:12px;opacity:.95;letter-spacing:.03em}
-    .title{margin:.45rem 0 0;font-size:1.35rem;line-height:1.35;font-weight:800;letter-spacing:.01em}
-    .body{padding:18px}
+
+    .shop{
+      font-size:12px;
+      opacity:.95;
+      letter-spacing:.03em;
+    }
+
+    .title{
+      margin:.45rem 0 0;
+      font-size:1.35rem;
+      line-height:1.35;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+
+    .body{
+      padding:18px;
+    }
+
     .summary{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:14px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
     }
-    .summary .label{color:var(--muted);font-size:.9rem}
-    .remain{font-size:2rem;font-weight:800;line-height:1}
-    .remain small{font-size:.95rem;color:var(--muted);font-weight:600}
+
+    .summary .label{
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .remain{
+      font-size:2rem;
+      font-weight:800;
+      line-height:1;
+    }
+
+    .remain small{
+      font-size:.95rem;
+      color:var(--muted);
+      font-weight:600;
+    }
+
     .progress-wrap{
-      background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:14px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      margin-bottom:14px;
     }
+
     .progress-bar{
-      width:100%;height:10px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin-bottom:8px;
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:#e5e7eb;
+      overflow:hidden;
+      margin-bottom:8px;
     }
+
     .progress{
-      height:100%;width:0%;
+      height:100%;
+      width:0%;
       background:linear-gradient(90deg,var(--brand),#34d399);
       transition:width .25s ease;
     }
-    .progress-text{font-size:.82rem;color:var(--muted);text-align:right}
+
+    .progress-text{
+      font-size:.82rem;
+      color:var(--muted);
+      text-align:right;
+    }
+
     .stamps{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:16px;
     }
+
     .stamp{
-      aspect-ratio:1/1;border-radius:14px;border:2px solid var(--line);
-      background:#fff;display:grid;place-items:center;font-weight:800;font-size:1.45rem;
-      color:#94a3b8;user-select:none;transition:all .2s ease;
+      aspect-ratio:1/1;
+      border-radius:14px;
+      border:2px solid var(--line);
+      background:#fff;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:1.45rem;
+      color:#94a3b8;
+      user-select:none;
+      transition:all .2s ease;
     }
+
     .stamp.used{
-      border-color:#86efac;background:#ecfdf5;color:#047857;box-shadow:inset 0 0 0 1px #bbf7d0;
+      border-color:#86efac;
+      background:#ecfdf5;
+      color:#047857;
+      box-shadow:inset 0 0 0 1px #bbf7d0;
     }
-    .controls{display:grid;gap:10px}
+
+    .controls{
+      display:grid;
+      gap:10px;
+    }
+
     button{
-      border:0;border-radius:12px;font-weight:800;font-size:.98rem;padding:13px 14px;cursor:pointer;
+      border:0;
+      border-radius:12px;
+      font-weight:800;
+      font-size:.98rem;
+      padding:13px 14px;
+      cursor:pointer;
       -webkit-tap-highlight-color:transparent;
     }
-    .btn-use{background:var(--brand);color:#fff}
-    .btn-use:disabled{background:#9ca3af;cursor:not-allowed}
+
+    .btn-use{
+      background:var(--brand);
+      color:#fff;
+    }
+
+    .btn-use:disabled{
+      background:#9ca3af;
+      cursor:not-allowed;
+    }
+
     .btn-reset{
-      background:#fff;color:var(--danger);border:1px solid #fecaca;
+      background:#fff;
+      color:var(--danger);
+      border:1px solid #fecaca;
     }
-    .hidden{display:none !important}
+
+    .hidden{
+      display:none !important;
+    }
+
+    .notice-accordion{
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#f8fafc;
+      overflow:hidden;
+    }
+
+    .notice-accordion summary{
+      list-style:none;
+      cursor:pointer;
+      padding:12px 13px;
+      font-size:.82rem;
+      font-weight:800;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .notice-accordion summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .notice-accordion summary::after{
+      content:"＋";
+      font-size:1rem;
+      color:var(--muted);
+      flex:0 0 auto;
+    }
+
+    .notice-accordion[open] summary::after{
+      content:"−";
+    }
+
+    .notice-accordion p{
+      margin:0;
+      padding:0 13px 13px;
+      font-size:.76rem;
+      line-height:1.65;
+      color:var(--muted);
+    }
+
     .meta{
-      margin-top:12px;font-size:.76rem;color:var(--muted);line-height:1.55;
+      margin-top:12px;
+      font-size:.76rem;
+      color:var(--muted);
+      line-height:1.55;
     }
+
     .foot{
-      border-top:1px solid var(--line);padding:11px 14px 14px;text-align:center;
-      font-size:.76rem;color:var(--muted);
+      border-top:1px solid var(--line);
+      padding:11px 14px 14px;
+      text-align:center;
+      font-size:.76rem;
+      color:var(--muted);
     }
+
     .badge{
-      display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;font-size:.68rem;
-      font-weight:700;color:#065f46;background:#d1fae5;border:1px solid #a7f3d0;vertical-align:middle;
+      display:inline-block;
+      margin-left:6px;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:.68rem;
+      font-weight:700;
+      color:#065f46;
+      background:#d1fae5;
+      border:1px solid #a7f3d0;
+      vertical-align:middle;
     }
   </style>
 </head>
@@ -126,12 +286,19 @@
 
       <div class="controls">
         <button id="useBtn" class="btn-use" type="button">1回利用する</button>
-        <!-- 使い切るまでは非表示 -->
         <button id="resetBtn" class="btn-reset hidden" type="button">新しい3回チケットを開始する</button>
       </div>
 
+      <details class="notice-accordion">
+        <summary>チケット表示についての注意</summary>
+        <p>
+          チケットの残回数はお客様の端末内に保存されます。<br />
+          端末変更、アプリ削除、ブラウザデータ削除などで表示がリセットされる場合があります。<br />
+          ご不明な場合は店舗スタッフが確認いたします。
+        </p>
+      </details>
+
       <p class="meta">
-        ※このチケット状態は端末内に保存されます。<br />
         ※スタッフ確認のうえ「1回利用する」を押してください。
       </p>
     </section>
@@ -182,14 +349,12 @@
         progress.style.width = percent + "%";
         progressText.textContent = `利用 ${used} / ${TOTAL}`;
 
-        // デフォルトはリセット非表示
         resetBtn.classList.add("hidden");
 
         if (remain === 0) {
           statusText.textContent = "すべて利用済みです";
           useBtn.disabled = true;
           useBtn.textContent = "利用済み（3/3）";
-          // 3回使い切ったときだけ表示
           resetBtn.classList.remove("hidden");
         } else {
           statusText.textContent = `あと ${remain} 回ご利用いただけます`;
