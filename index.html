@@ -15,6 +15,10 @@
       --brand2:#059669;
       --line:#e2e8f0;
       --danger:#ef4444;
+      --warning-bg:#fffbeb;
+      --warning-border:#f59e0b;
+      --warning-text:#78350f;
+      --warning-soft:#fef3c7;
     }
 
     *{box-sizing:border-box}
@@ -71,6 +75,40 @@
 
     .body{
       padding:18px;
+    }
+
+    .limited-note{
+      position:relative;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin:0 0 16px;
+      padding:13px 14px 13px 16px;
+      border-radius:14px;
+      background:linear-gradient(135deg, #fffbeb, #fef3c7);
+      border:1px solid var(--warning-border);
+      border-left:6px solid var(--warning-border);
+      color:var(--warning-text);
+      font-size:.92rem;
+      font-weight:800;
+      line-height:1.55;
+      box-shadow:0 8px 20px rgba(245,158,11,.15);
+    }
+
+    .limited-note::before{
+      content:"⚠️";
+      flex:0 0 auto;
+      font-size:1rem;
+      line-height:1.5;
+    }
+
+    .limited-note strong{
+      color:#92400e;
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      border-radius:999px;
+      padding:1px 7px;
+      white-space:nowrap;
     }
 
     .summary{
@@ -276,18 +314,6 @@
       vertical-align:middle;
     }
 
-    .limited-note{
-  　 　margin-bottom:14px;
-  　　 padding:10px 12px;
-  　　 border-radius:12px;
-  　　 background:#fff7ed;
- 　　  border:1px solid #fed7aa;
- 　　  color:#9a3412;
-  　 　font-size:.82rem;
-  　　 font-weight:700;
- 　　  line-height:1.5;
-　　 }
-
     @keyframes fadeInUp {
       from {opacity:0; transform:translateY(20px);}
       to {opacity:1; transform:translateY(0);}
@@ -309,8 +335,11 @@
 
     <section class="body">
       <div class="limited-note">
-       ※こちらは脳疲労リセットコースご購入者さま専用のチケットページです。
+        <span>
+          こちらは脳疲労リセットコース<strong>ご購入者さま専用</strong>のチケットページです。
+        </span>
       </div>
+
       <div class="summary">
         <div>
           <div class="label">残り回数</div>
