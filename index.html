@@ -15,14 +15,11 @@
       --brand2:#059669;
       --line:#e2e8f0;
       --danger:#ef4444;
-      --warning-bg:#fffbeb;
       --warning-border:#f59e0b;
       --warning-text:#78350f;
-      --warning-soft:#fef3c7;
     }
 
     *{box-sizing:border-box}
-
     html,body{height:100%}
 
     body{
@@ -32,8 +29,7 @@
         radial-gradient(1000px 300px at 100% 0%, #e0f2fe 0%, transparent 45%),
         var(--bg);
       color:var(--text);
-      font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
       display:grid;
       place-items:center;
@@ -70,7 +66,6 @@
       font-size:1.35rem;
       line-height:1.35;
       font-weight:800;
-      letter-spacing:.01em;
     }
 
     .body{
@@ -78,7 +73,6 @@
     }
 
     .limited-note{
-      position:relative;
       display:flex;
       gap:10px;
       align-items:flex-start;
@@ -98,8 +92,6 @@
     .limited-note::before{
       content:"⚠️";
       flex:0 0 auto;
-      font-size:1rem;
-      line-height:1.5;
     }
 
     .limited-note strong{
@@ -116,12 +108,17 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      margin:0 0 14px;
+      margin:0 0 10px;
       padding:12px 13px;
       border-radius:14px;
       background:#f8fafc;
       border:1px solid var(--line);
       box-shadow:0 6px 16px rgba(15,23,42,.04);
+    }
+
+    .start-date-card.expired{
+      background:#fef2f2;
+      border-color:#fecaca;
     }
 
     .start-date-label{
@@ -140,12 +137,16 @@
       white-space:nowrap;
     }
 
+    .expired .start-date-value{
+      color:var(--danger);
+    }
+
     .summary{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:14px;
+      margin:14px 0;
     }
 
     .summary .label{
@@ -289,7 +290,6 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      -webkit-tap-highlight-color:transparent;
     }
 
     .notice-accordion summary::-webkit-details-marker{
@@ -300,7 +300,6 @@
       content:"＋";
       font-size:1rem;
       color:var(--muted);
-      flex:0 0 auto;
     }
 
     .notice-accordion[open] summary::after{
@@ -355,6 +354,7 @@
     }
   </style>
 </head>
+
 <body>
   <main class="ticket" aria-label="脳疲労リセットコース3回チケット">
     <section class="head">
@@ -372,6 +372,11 @@
       <div class="start-date-card" aria-label="コース開始日">
         <div class="start-date-label">📅 コース開始日</div>
         <div id="startDateText" class="start-date-value">確認中</div>
+      </div>
+
+      <div id="expireDateCard" class="start-date-card" aria-label="使用期限">
+        <div class="start-date-label">⏰ 使用期限</div>
+        <div id="expireDateText" class="start-date-value">確認中</div>
       </div>
 
       <div class="summary">
@@ -397,14 +402,15 @@
       <details class="notice-accordion">
         <summary>チケット表示についての注意</summary>
         <p>
-          チケットの残回数とコース開始日はお客様の端末内に保存されます。<br />
+          チケットの残回数、コース開始日、使用期限はお客様の端末内に保存されます。<br />
           端末変更、アプリ削除、ブラウザデータ削除などで表示がリセットされる場合があります。<br />
           ご不明な場合は店舗スタッフが確認いたします。
         </p>
       </details>
 
       <p class="meta">
-        ※スタッフ確認のうえ「1回利用する」を押してください。
+        ※スタッフ確認のうえ「1回利用する」を押してください。<br />
+        ※使用期限はコース開始日から42日間です。
       </p>
     </section>
 
@@ -417,10 +423,15 @@
   <script>
     (function () {
       const TOTAL = 3;
+      const EXPIRE_DAYS = 42;
+
       const STORAGE_KEY = "10fresh_nerima_brainreset_ticket_used_v2";
-      const START_DATE_KEY = "10fresh_nerima_brainreset_ticket_start_date_v1";
+      const START_DATE_KEY = "10fresh_nerima_brainreset_ticket_start_date_v2";
+      const EXPIRE_DATE_KEY = "10fresh_nerima_brainreset_ticket_expire_date_v1";
 
       const startDateText = document.getElementById("startDateText");
+      const expireDateText = document.getElementById("expireDateText");
+      const expireDateCard = document.getElementById("expireDateCard");
       const remainNum = document.getElementById("remainNum");
       const statusText = document.getElementById("statusText");
       const progress = document.getElementById("progress");
@@ -437,8 +448,31 @@
         }).format(date);
       }
 
-      function getTodayText() {
-        return formatDate(new Date());
+      function getTodayISO() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function addDaysISO(isoDate, days) {
+        const date = new Date(isoDate + "T00:00:00");
+        date.setDate(date.getDate() + days);
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+      }
+
+      function formatISODate(isoDate) {
+        return formatDate(new Date(isoDate + "T00:00:00"));
+      }
+
+      function isExpired(expireDate) {
+        return getTodayISO() > expireDate;
       }
 
       let used = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
@@ -446,33 +480,47 @@
       if (used > TOTAL) used = TOTAL;
 
       let startDate = localStorage.getItem(START_DATE_KEY);
+      let expireDate = localStorage.getItem(EXPIRE_DATE_KEY);
+
       if (!startDate) {
-        startDate = getTodayText();
+        startDate = getTodayISO();
         localStorage.setItem(START_DATE_KEY, startDate);
       }
 
-      function save() {
+      if (!expireDate) {
+        expireDate = addDaysISO(startDate, EXPIRE_DAYS);
+        localStorage.setItem(EXPIRE_DATE_KEY, expireDate);
+      }
+
+      function saveUsed() {
         localStorage.setItem(STORAGE_KEY, String(used));
       }
 
-      function saveStartDate() {
+      function saveDates() {
         localStorage.setItem(START_DATE_KEY, startDate);
+        localStorage.setItem(EXPIRE_DATE_KEY, expireDate);
       }
 
       function renderStamps() {
         stamps.innerHTML = "";
+
         for (let i = 0; i < TOTAL; i++) {
           const cell = document.createElement("div");
           const isUsed = i < used;
+
           cell.className = "stamp" + (isUsed ? " used" : "");
           cell.textContent = isUsed ? "✔" : "○";
+
           stamps.appendChild(cell);
         }
       }
 
       function render() {
         const remain = TOTAL - used;
-        startDateText.textContent = startDate;
+        const expired = isExpired(expireDate);
+
+        startDateText.textContent = formatISODate(startDate);
+        expireDateText.textContent = formatISODate(expireDate);
         remainNum.textContent = String(remain);
 
         const percent = (used / TOTAL) * 100;
@@ -480,8 +528,14 @@
         progressText.textContent = `利用 ${used} / ${TOTAL}`;
 
         resetBtn.classList.add("hidden");
+        expireDateCard.classList.toggle("expired", expired);
 
-        if (remain === 0) {
+        if (expired) {
+          statusText.textContent = "使用期限が過ぎています";
+          useBtn.disabled = true;
+          useBtn.textContent = "使用期限切れ";
+          resetBtn.classList.remove("hidden");
+        } else if (remain === 0) {
           statusText.textContent = "すべて利用済みです";
           useBtn.disabled = true;
           useBtn.textContent = "利用済み（3/3）";
@@ -497,11 +551,16 @@
 
       useBtn.addEventListener("click", function () {
         if (used >= TOTAL) return;
+        if (isExpired(expireDate)) {
+          render();
+          return;
+        }
+
         const ok = window.confirm("このチケットを1回分利用します。よろしいですか？");
         if (!ok) return;
 
         used += 1;
-        save();
+        saveUsed();
         render();
       });
 
@@ -510,9 +569,11 @@
         if (!ok) return;
 
         used = 0;
-        startDate = getTodayText();
-        save();
-        saveStartDate();
+        startDate = getTodayISO();
+        expireDate = addDaysISO(startDate, EXPIRE_DAYS);
+
+        saveUsed();
+        saveDates();
         render();
       });
 
