@@ -82,7 +82,7 @@
       display:flex;
       gap:10px;
       align-items:flex-start;
-      margin:0 0 16px;
+      margin:0 0 14px;
       padding:13px 14px 13px 16px;
       border-radius:14px;
       background:linear-gradient(135deg, #fffbeb, #fef3c7);
@@ -108,6 +108,35 @@
       border:1px solid #fed7aa;
       border-radius:999px;
       padding:1px 7px;
+      white-space:nowrap;
+    }
+
+    .start-date-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:0 0 14px;
+      padding:12px 13px;
+      border-radius:14px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      box-shadow:0 6px 16px rgba(15,23,42,.04);
+    }
+
+    .start-date-label{
+      color:var(--muted);
+      font-size:.82rem;
+      font-weight:800;
+      line-height:1.4;
+    }
+
+    .start-date-value{
+      color:var(--text);
+      font-size:.95rem;
+      font-weight:900;
+      line-height:1.4;
+      text-align:right;
       white-space:nowrap;
     }
 
@@ -340,6 +369,11 @@
         </span>
       </div>
 
+      <div class="start-date-card" aria-label="コース開始日">
+        <div class="start-date-label">📅 コース開始日</div>
+        <div id="startDateText" class="start-date-value">確認中</div>
+      </div>
+
       <div class="summary">
         <div>
           <div class="label">残り回数</div>
@@ -363,7 +397,7 @@
       <details class="notice-accordion">
         <summary>チケット表示についての注意</summary>
         <p>
-          チケットの残回数はお客様の端末内に保存されます。<br />
+          チケットの残回数とコース開始日はお客様の端末内に保存されます。<br />
           端末変更、アプリ削除、ブラウザデータ削除などで表示がリセットされる場合があります。<br />
           ご不明な場合は店舗スタッフが確認いたします。
         </p>
@@ -384,7 +418,9 @@
     (function () {
       const TOTAL = 3;
       const STORAGE_KEY = "10fresh_nerima_brainreset_ticket_used_v2";
+      const START_DATE_KEY = "10fresh_nerima_brainreset_ticket_start_date_v1";
 
+      const startDateText = document.getElementById("startDateText");
       const remainNum = document.getElementById("remainNum");
       const statusText = document.getElementById("statusText");
       const progress = document.getElementById("progress");
@@ -393,12 +429,34 @@
       const useBtn = document.getElementById("useBtn");
       const resetBtn = document.getElementById("resetBtn");
 
+      function formatDate(date) {
+        return new Intl.DateTimeFormat("ja-JP", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }).format(date);
+      }
+
+      function getTodayText() {
+        return formatDate(new Date());
+      }
+
       let used = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
       if (Number.isNaN(used) || used < 0) used = 0;
       if (used > TOTAL) used = TOTAL;
 
+      let startDate = localStorage.getItem(START_DATE_KEY);
+      if (!startDate) {
+        startDate = getTodayText();
+        localStorage.setItem(START_DATE_KEY, startDate);
+      }
+
       function save() {
         localStorage.setItem(STORAGE_KEY, String(used));
+      }
+
+      function saveStartDate() {
+        localStorage.setItem(START_DATE_KEY, startDate);
       }
 
       function renderStamps() {
@@ -414,6 +472,7 @@
 
       function render() {
         const remain = TOTAL - used;
+        startDateText.textContent = startDate;
         remainNum.textContent = String(remain);
 
         const percent = (used / TOTAL) * 100;
@@ -451,7 +510,9 @@
         if (!ok) return;
 
         used = 0;
+        startDate = getTodayText();
         save();
+        saveStartDate();
         render();
       });
 
